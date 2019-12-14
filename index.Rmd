@@ -24,6 +24,30 @@ Write an intro `index.html` page in blog-post style that summarizes your work. I
 1. No more than 200 words of text
 
 ```{r, echo = FALSE}
+#load packages
+library(tidyverse)
+
+#load datasets
+
+athlete_events <- read_csv("athlete_events.csv")
+noc_regions <- read_csv("noc_regions.csv")
+
+#data wrangling
+athlete_all <- athlete_events %>% 
+  filter(Sport == "Swimming" | Sport == "Gymnastics" | Sport == "Athletics") %>% 
+  group_by(Year, Sex, Sport) %>% 
+  summarize(
+    avg_height = mean(Height, na.rm = TRUE),
+    avg_weight = mean(Weight, na.rm = TRUE),
+    avg_age = mean(Age, na.rm = TRUE), 
+    avg_BMI = mean(Weight, na.rm = TRUE) / ((mean(Height, na.rm = TRUE) / 100)*(mean(Height, na.rm = TRUE) / 100)))%>% 
+  filter(avg_height != "NaN" & avg_weight != "NaN" & avg_age != "NaN")
+
+#data visualization
+ggplot(data = athlete_all, mapping = aes(x = Year, y = avg_BMI, color = Sport)) +
+  geom_point() +
+  geom_smooth(se = FALSE, span = .5) +
+  facet_wrap(~Sex)
 
 ```
 
