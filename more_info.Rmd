@@ -26,5 +26,30 @@ Write a second `more_info.html` page going more in-depth for people who want mor
 1. No more than 500 words of text
 
 ```{r, echo = FALSE}
+#load packages
+library(tidyverse)
+
+#load datasets
+
+athlete_events <- read_csv("athlete_events.csv")
+noc_regions <- read_csv("noc_regions.csv")
+
+#data wrangling
+athlete_all <- athlete_events %>% 
+  filter(Sport == "Swimming" | Sport == "Gymnastics" | Sport == "Athletics") %>% 
+  group_by(Year, Sex, Sport) %>% 
+  summarize(
+    avg_height = mean(Height, na.rm = TRUE),
+    avg_weight = mean(Weight, na.rm = TRUE),
+    avg_age = mean(Age, na.rm = TRUE), 
+    avg_BMI = mean(Weight, na.rm = TRUE) / ((mean(Height, na.rm = TRUE) / 100)*(mean(Height, na.rm = TRUE) / 100)))%>% 
+  filter(avg_height != "NaN" & avg_weight != "NaN" & avg_age != "NaN")
+
+#average age visualization
+
+ggplot(data = athlete_all, mapping = aes(x = Year, y = avg_age, color = Sex)) +
+  geom_point() +
+  geom_smooth(se = FALSE, span = 0.75) +
+  facet_wrap(~Sport)
 
 ```
