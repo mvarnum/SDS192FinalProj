@@ -183,26 +183,4 @@ ggplot(data = swim_by_year, mapping = aes(x = Year, y = avg_age)) +
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
-#Men's weightlifting
-```{r}
-athlete_lifting <- athlete_events %>% 
-  filter(Sport == "Weightlifting" & Sex == "M" & Year > 1919) %>% 
-  mutate(BMI = Weight/((Height/100)*(Height/100)))
-
-lifting_averages_by_year <- athlete_lifting %>% 
-  group_by(Year) %>% 
-  summarize(
-    avg_weight = mean(Weight, na.rm = TRUE), 
-    avg_height = mean(Height, na.rm = TRUE), 
-    avg_BMI = mean(BMI, na.rm = TRUE))
-         
-ggplot(data = athlete_lifting,
-       mapping = aes(x = factor(Year), y = BMI)) +
-  geom_boxplot()
-
-ggplot(data = lifting_averages_by_year,
-       mapping = aes(x = Year, y = avg_weight)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE)
-```
 
