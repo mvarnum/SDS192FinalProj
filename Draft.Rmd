@@ -1,0 +1,184 @@
+---
+title: "olympics"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, echo=FALSE}
+#load packages
+library(tidyverse)
+```
+
+```{r}
+#load datasets
+
+athlete_events <- read_csv("athlete_events.csv")
+noc_regions <- read_csv("noc_regions.csv")
+
+```
+## ALl Sports
+
+
+```{r}
+athlete_all <- athlete_events %>% 
+  filter(Sport == "Swimming" | Sport == "Gymnastics" | Sport == "Athletics") %>% 
+  group_by(Year, Sex, Sport) %>% 
+  summarize(
+    avg_height = mean(Height, na.rm = TRUE),
+    avg_weight = mean(Weight, na.rm = TRUE),
+    avg_age = mean(Age, na.rm = TRUE), 
+    avg_BMI = mean(Weight, na.rm = TRUE) / ((mean(Height, na.rm = TRUE) / 100)*(mean(Height, na.rm = TRUE) / 100)))%>% 
+  filter(avg_height != "NaN" & avg_weight != "NaN" & avg_age != "NaN")
+
+ggplot(data = athlete_all, mapping = aes(x = Year, y = avg_BMI, color = Sport)) +
+  geom_point() +
+  geom_smooth(se = FALSE, span = .5) +
+  facet_wrap(~Sex)
+```
+
+```{r}
+athlete_all <- athlete_events %>% 
+  filter(Sport == "Swimming" | Sport == "Gymnastics" | Sport == "Athletics") %>% 
+  group_by(Year, Sex, Sport) %>% 
+  summarize(
+    avg_height = mean(Height, na.rm = TRUE),
+    avg_weight = mean(Weight, na.rm = TRUE),
+    avg_age = mean(Age, na.rm = TRUE), 
+    avg_BMI = mean(Weight, na.rm = TRUE) / ((mean(Height, na.rm = TRUE) / 100)*(mean(Height, na.rm = TRUE) / 100)))%>% 
+  filter(avg_height != "NaN" & avg_weight != "NaN" & avg_age != "NaN")
+
+ggplot(data = athlete_all, mapping = aes(x = Year, y = avg_height, color = Sport)) +
+  geom_point() +
+  geom_smooth(se = FALSE, span = 1) +
+  facet_wrap(~Sex)
+```
+
+
+## Gymastics
+
+```{r, echo=FALSE}
+#wrangling
+athlete_gymnastics <- athlete_events %>% 
+  filter(Sport == "Gymnastics")
+
+gymnastics_by_year <- athlete_gymnastics %>% 
+  group_by(Year, Sex) %>% 
+  summarize(
+    avg_height = mean(Height, na.rm = TRUE),
+    avg_weight = mean(Weight, na.rm = TRUE),
+    avg_age = mean(Age, na.rm = TRUE),
+    avg_BMI = mean(Weight, na.rm = TRUE) / ((mean(Height, na.rm = TRUE) / 100)*(mean(Height, na.rm = TRUE) / 100)))%>% 
+  filter(avg_height != "NaN" & avg_weight != "NaN" & avg_age != "NaN")
+gymnastics_by_year
+
+gymnastics_by_year_medal_winners <- athlete_gymnastics %>% 
+    filter(Medal == "Silver" | Medal == "Bronze" | Medal == "Gold") %>% 
+      group_by(Year, Sex) %>% 
+    summarize(
+      avg_height = mean(Height, na.rm = TRUE),
+      avg_weight = mean(Weight, na.rm = TRUE),
+      avg_age = mean(Age, na.rm = TRUE)) %>% 
+    filter(avg_height != "NaN" & avg_weight != "NaN" & avg_age != "NaN")
+  gymnastics_by_year_medal_winners
+```
+```{r}
+#plotting
+ggplot(data = gymnastics_by_year, mapping = aes(x = Year, y = avg_BMI)) +
+  geom_point() +
+  geom_smooth(se = FALSE, span = 0.75) +
+  facet_wrap(~Sex)
+```
+
+## Swimming
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+#wrangling
+athlete_swim <- athlete_events %>% 
+  filter(Sport == "Swimming") %>% 
+  mutate(BMI = Weight/((Height/100)*(Height/100)))
+
+swim_by_year <- athlete_swim %>% 
+  group_by(Year, Sex) %>% 
+  summarize(
+    avg_height = mean(Height, na.rm = TRUE),
+    avg_weight = mean(Weight, na.rm = TRUE),
+    avg_age = mean(Age, na.rm = TRUE),
+    avg_BMI = mean(Weight, na.rm = TRUE) / ((mean(Height, na.rm = TRUE) / 100)*(mean(Height, na.rm = TRUE) / 100)) ) %>% 
+  filter(avg_height != "NaN" & avg_weight != "NaN" & avg_age != "NaN")
+
+ggplot(data = swim_by_year, mapping = aes(x = Year, y = avg_height)) +
+  geom_point() +
+  geom_smooth(se = FALSE, span = 0.75) +
+  facet_wrap(~Sex)
+
+ggplot(data = swim_by_year, mapping = aes(x = Year, y = avg_BMI)) +
+  geom_point() +
+  geom_smooth(se = FALSE, span = 0.75) +
+  facet_wrap(~Sex)
+```
+```{r}
+#comparing runners and swimmers BMI accross events
+runner_BMI <- athlete_events %>% 
+  filter(Sport == "Athletics", Year > 1990) %>% 
+  mutate(BMI = Weight/((Height/100)*(Height/100))) %>% 
+  filter(grepl("0", Event))
+
+swimmer_BMI <- athlete_events %>% 
+  filter(Sport == "Swimming", Year > 1990) %>% 
+  mutate(BMI = Weight/((Height/100)*(Height/100)))
+swimmer_BMI
+
+ggplot(data = runner_BMI, mapping = aes(x = factor(Event), y = BMI)) +
+  #facet_wrap(~grepl("Men", Event)) +
+  geom_boxplot()
+
+ggplot(data = swimmer_BMI, mapping = aes(x = factor(Event), y = BMI)) +
+  #facet_wrap(~grepl("Men", Event)) +
+  geom_boxplot()
+  
+```
+
+##Weightlifting (men)
+```{r, echo = FALSE}
+athlete_lifting <- athlete_events %>% 
+  filter(Sport == "Weightlifting" & Sex == "M" & Year > 1919) %>% 
+  mutate(BMI = Weight/((Height/100)*(Height/100)))
+
+lifting_averages_by_year <- athlete_lifting %>% 
+  group_by(Year) %>% 
+  summarize(
+    avg_weight = mean(Weight, na.rm = TRUE), 
+    avg_height = mean(Height, na.rm = TRUE), 
+    avg_BMI = mean(BMI, na.rm = TRUE))
+         
+ggplot(data = athlete_lifting,
+       mapping = aes(x = factor(Year), y = BMI)) +
+  geom_boxplot()
+
+ggplot(data = lifting_averages_by_year,
+       mapping = aes(x = Year, y = avg_weight)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+  
+```
+
+```{r}
+ggplot(data = gymnastics_by_year, mapping = aes(x = Year, y = avg_age)) +
+  geom_point() +
+  geom_smooth(se = FALSE, span = 0.75) +
+  facet_wrap(~Sex)
+```
+```{r}
+ggplot(data = swim_by_year, mapping = aes(x = Year, y = avg_age)) +
+  geom_point() +
+  geom_smooth(se = FALSE, span = 0.75) +
+  facet_wrap(~Sex)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
