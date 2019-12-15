@@ -1,6 +1,6 @@
 ---
-title: "My Final Project"
-author: "Guy Incognito"
+title: "Physical Metrics of Olympic Gymnastics, Swimmers, and Track Runners"
+author: "Chichi Wu and Megan Varnum"
 date: "Last updated on `r Sys.Date()`"
 output:
   html_document:
@@ -14,14 +14,14 @@ output:
 Comments in HTML are like this! 
 -->
 
-# SECTION NAME
+# Physical Metrics of Olympic Gymnastics, Swimmers, and Track Runners
 
-## Subsection name
+## A Quick Look
 
-Write an intro `index.html` page in blog-post style that summarizes your work. It should have
+	As the world’s foremost sports competition, the Olympic Games brings together the best of the best. Viewers tune in to watch the tiny, yet incredibly toned “Final Five” flip through the air like superheroes, Michael Phelps create mini tsunamis with his impossibly long wingspan, or Usain Bolt’s lean figure zipping past the competition. Perhaps as a child you even had dreams to be amongst them one day, but it seems that unless you grew up to be five foot nothing, joining the Olympic gymnastics team was not in the cards for you. It is obvious that the physical requirements for each sport is drastically different and that within the sport the standard seems extremely specific. And while this is certainly true, that standard has actually changed a lot over time. Our dataset includes the physical stats of athletes across sports from Athens 1896 to Rio 2016.^[Griffin, Randi. "120 years of Olympic history: athletes and results". Kaggle, 2017,  https://www.kaggle.com/heesoo37/120-years-of-olympic-history-athletes-and-results. Accessed 15 Dec. 2019]. We, however, are only looking at three of the most popular sports in the Olympic Games: gymnastics, swimming, and track and field. Thus, through analyzing this data, we hope to gain a better understanding of the physical metrics of elite athletes overtime. 
 
-1. One visualization that best summarizes your work.
-1. No more than 200 words of text
+
+##Average BMI Overtime
 
 ```{r, echo = FALSE}
 #load packages
@@ -49,10 +49,11 @@ ggplot(data = athlete_all, mapping = aes(x = Year, y = avg_BMI, color = Sport)) 
   #geom_line() +
   geom_smooth(se = FALSE, span = .5) +
   facet_wrap(~Sex) +
-  labs(title = "Average Olympian BMI Over Time: \n \u2192 Swimming, Gymnastics, Track & Field", y = "Average BMI") +
+  labs(title = "Average Olympian BMI Over Time: \n Swimming, Gymnastics, Track & Field", y = "Average BMI") +
   scale_color_discrete(name = "Olympic Sport", labels = c("Track & Field", "Gymnastics", "Swimming")) +
   ylim(15, 25)
 
 ```
+For male athletes across all three sports, the average BMI is fairly consistent. This is most likely due to the fact that the physical priority for men has always been strength. For women, the physical priority has shifted over time. As female athletes are taken more seriously overtime, the sports have become increasingly competitive. From around 1890-1920, there were no female athletes. Now, women’s gymnastics is even more popular and competitive than men’s. Therefore, body standards are now more specific, but in the beginning the standards and BMI ranged dramatically. 
 
 
