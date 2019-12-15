@@ -14,9 +14,7 @@ output:
 Comments in HTML are like this! 
 -->
 
-# SECTION NAME
-
-Write your "more information" section here.
+# More Information
 
 ## Average Age Overtime
 
