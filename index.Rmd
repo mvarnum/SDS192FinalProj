@@ -60,7 +60,7 @@ ggplot(data = athlete_all, mapping = aes(x = Year, y = avg_BMI, color = Sport)) 
   facet_wrap(~Sex) +
   labs(title = "Average Olympian BMI Over Time: \nSwimming, Gymnastics, Track & Field", y = "Average BMI") +
   scale_color_discrete(name = "Olympic Sport", labels = c("Track & Field", "Gymnastics", "Swimming")) +
-  ylim(15, 25)
+  ylim(15, 25) 
 
 ```
 For male athletes across all three sports, the average BMI is fairly consistent. This is most likely due to the fact that the physical priority for men has always been strength. For women, the physical priority has shifted over time. As female athletes are taken more seriously overtime, the sports have become increasingly competitive. From around 1890-1920, there were no female athletes. Now, women’s gymnastics is even more popular and competitive than men’s. Therefore, body standards are now more specific, but in the beginning the standards and BMI ranged dramatically. 

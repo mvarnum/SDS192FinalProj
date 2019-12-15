@@ -62,7 +62,8 @@ ggplot(data = athlete_all,
   facet_wrap(~Sport) +
   labs(y = "Mean Athlete Age", 
        title = "Olympian Age Over the Years:\nSwimming, Gymnastics, Track & Field") +
-  theme(legend.title = element_blank())
+  theme(legend.title = element_blank()) +
+  xlim(1900, 2016)
 
 ```
  
