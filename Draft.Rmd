@@ -76,15 +76,10 @@ gymnastics_by_year <- athlete_gymnastics %>%
   filter(avg_height != "NaN" & avg_weight != "NaN" & avg_age != "NaN")
 gymnastics_by_year
 
-gymnastics_by_year_medal_winners <- athlete_gymnastics %>% 
+gymnastics_medal_winners <- athlete_gymnastics %>% 
     filter(Medal == "Silver" | Medal == "Bronze" | Medal == "Gold") %>% 
-      group_by(Year, Sex) %>% 
-    summarize(
-      avg_height = mean(Height, na.rm = TRUE),
-      avg_weight = mean(Weight, na.rm = TRUE),
-      avg_age = mean(Age, na.rm = TRUE)) %>% 
-    filter(avg_height != "NaN" & avg_weight != "NaN" & avg_age != "NaN")
-  gymnastics_by_year_medal_winners
+    filter(Year > 1999)
+  gymnastics_medal_winners
 ```
 ```{r}
 #plotting
@@ -92,6 +87,17 @@ ggplot(data = gymnastics_by_year, mapping = aes(x = Year, y = avg_BMI)) +
   geom_point() +
   geom_smooth(se = FALSE, span = 0.75) +
   facet_wrap(~Sex)
+```
+```{r}
+
+ggplot(data = gymnastics_medal_winners, 
+       mapping = aes(x = Age)) + 
+  geom_histogram(bins = 8,
+                 aes(y = (..count..)/tapply(..count..,..PANEL..,sum)[..PANEL..])) + 
+  facet_wrap(~Sex) +
+  labs(x = "Age of Medal Winner", 
+       y = "Proportion", 
+       title = "Age of Medal Winners for Olympic Gymnastics: 2000-2016")
 ```
 
 ## Swimming
@@ -356,5 +362,6 @@ ggplot(data = swim_by_year, mapping = aes(x = Year, y = avg_age)) +
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
 
 

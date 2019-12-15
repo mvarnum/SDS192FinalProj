@@ -63,7 +63,7 @@ ggplot(data = athlete_all,
        mapping = aes(x = Year, 
                      y = avg_age, 
                      color = Sex)) +
-  geom_point() +
+  #geom_point() +
   geom_smooth(se = FALSE, span = 0.75) +
   facet_wrap(~Sport) +
   labs(y = "Mean Athlete Age", 
