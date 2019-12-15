@@ -16,7 +16,7 @@ output:
 navbar:
   title: "Physical Metrics of Olympians"
   left:
-    - text: "Blogpost"
+    - text: "A Quick Look"
       href: index.html
     - text: "More info"
       href: more_info.html
