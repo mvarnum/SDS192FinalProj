@@ -61,7 +61,7 @@ ggplot(data = athlete_all,
   geom_smooth(se = FALSE, span = 0.75) +
   facet_wrap(~Sport) +
   labs(y = "Mean Athlete Age", 
-       title = "Olympian Age Over the Years:\n \u2192 Swimming, Gymnastics, Track & Field") +
+       title = "Olympian Age Over the Years:\nSwimming, Gymnastics, Track & Field") +
   theme(legend.title = element_blank())
 
 ```
@@ -235,7 +235,7 @@ ggplot(data = runner_BMI, mapping = aes(x = factor(event_catagory), y = BMI, fil
   geom_boxplot() +
   labs(x = "Type of Event",
        y = "Avergae Athlete BMI",
-       title = "Olympian's BMI by Event: \n \u2192 Runners")+
+       title = "Olympian's BMI by Event: Runners")+
   ylim(14, 35) +
   scale_fill_brewer(palette = "Set3") +
   theme(legend.position = "none") 
@@ -245,7 +245,7 @@ ggplot(data = swimmer_BMI, mapping = aes(x = factor(event_catagory), y = BMI, fi
   geom_boxplot() +
   labs(x = "Type of Event",
        y = "Avergae Athlete BMI",
-       title = "Olympian's BMI by Event: \n \u2192 Swimmers") + 
+       title = "Olympian's BMI by Event: Swimmers") + 
   ylim(14, 35)  +
   scale_fill_brewer(palette = "Set3") +
   theme(legend.position = "none")
@@ -254,7 +254,7 @@ Comparing the BMIs of runners and swimmers across event categories (distance, sp
 
 
 ## Age of Medalists in Gymnastics 
-```{r}
+```{r, echo = FALSE}
 #wrangling
 athlete_gymnastics <- athlete_events %>% 
   filter(Sport == "Gymnastics")

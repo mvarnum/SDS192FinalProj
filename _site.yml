@@ -7,7 +7,7 @@ output:
     toc: yes
     toc_float: yes
     toc_depth: 2
-    theme: cosmo
+    theme: flatly
     highlight: tango
     df_print: paged
     lib_dir: site_libs
@@ -20,6 +20,9 @@ navbar:
       href: index.html
     - text: "More info"
       href: more_info.html
+  right:
+    - icon: fa-github
+      href: https://github.com/mvarnum/SDS192FinalProj
 #  right:
 #    - icon: fa-slack fa-lg
 #      href: https://2018-fall-sds-albert.slack.com/
