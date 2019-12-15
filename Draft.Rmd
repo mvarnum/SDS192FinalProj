@@ -24,6 +24,7 @@ noc_regions <- read_csv("noc_regions.csv")
 
 
 ```{r}
+
 athlete_all <- athlete_events %>% 
   filter(Sport == "Swimming" | Sport == "Gymnastics" | Sport == "Athletics") %>% 
   group_by(Year, Sex, Sport) %>% 
@@ -233,8 +234,25 @@ swim_IM_events <- list(
   "Swimming Men's 4 x 100 metres Medley Relay",
   "Swimming Men's 200 metres Individual Medley"
 )
+
 ```
 
+```{r}
+track_event_order <- c("Sprint",
+                 "Hurdles",
+                 "Walk",
+                 "Middle",
+                 "Distance",
+                 "Marathon")
+
+swim_event_order <- c("IM",
+                      "Breast",
+                      "Sprint",
+                      "Butterfly",
+                      "Back",
+                      "Distance")
+
+```
 
 ```{r}
 runner_BMI <- athlete_events %>% 
@@ -249,7 +267,9 @@ runner_BMI <- athlete_events %>%
                                        ifelse(Event %in% track_walk_events, "Walk", 
                                               ifelse(Event %in% track_marathon_events, "Marathon",
                                                      "Other"))))))) %>% 
-  filter(event_catagory != "Other")
+  filter(event_catagory != "Other") %>% #get rid of field events
+  mutate(event_catagory = factor(event_catagory, levels = track_event_order)) %>% 
+  mutate(Sex = ifelse(Sex == "M", "Men", "Women"))
 
 swimmer_BMI <- athlete_events %>% 
   filter(Sport == "Swimming", Year > 1990) %>% 
@@ -258,19 +278,44 @@ swimmer_BMI <- athlete_events %>%
            ifelse(Event %in% swim_free_distance_events, "Distance",
                   ifelse(Event %in% swim_free_sprint_events, "Sprint",
                          ifelse(Event %in% swim_butterfly_events, "Butterfly",
-                                ifelse(Event %in% swim_breast_events,"Breastroke",
-                                       ifelse(Event %in% swim_back_events, "Backstroke",
-                                              ifelse(Event %in% swim_IM_events, "IM", "Other")))))))
-swimmer_BMI
+                                ifelse(Event %in% swim_breast_events,"Breast",
+                                       ifelse(Event %in% swim_back_events, "Back",
+                                              ifelse(Event %in% swim_IM_events, "IM", "Other"))))))) %>% 
+  mutate(event_catagory = factor(event_catagory, levels = swim_event_order)) %>% 
+  mutate(Sex = ifelse(Sex == "M", "Men", "Women"))
 
-ggplot(data = runner_BMI, mapping = aes(x = factor(event_catagory), y = BMI)) +
-  facet_wrap(~grepl("Men", Event)) +
-  geom_boxplot()
+# swimmer_runner_BMI <- runner_BMI %>% 
+#   full_join(swimmer_BMI)
 
-ggplot(data = swimmer_BMI, mapping = aes(x = factor(event_catagory), y = BMI)) +
-  facet_wrap(~grepl("Men", Event)) +
-  geom_boxplot()
-  
+
+ggplot(data = runner_BMI, mapping = aes(x = factor(event_catagory), y = BMI, fill = event_catagory)) +
+  facet_wrap(~Sex) +
+  geom_boxplot() +
+  labs(x = "Type of Event",
+       y = "Avergae Athlete BMI",
+       title = "Olympian's BMI by Event: \n \u2192 Runners \u263a ")+
+  ylim(14, 35) +
+  scale_fill_brewer(palette = "Set3") +
+  theme(legend.position = "none") 
+
+ggplot(data = swimmer_BMI, mapping = aes(x = factor(event_catagory), y = BMI, fill = event_catagory)) +
+  facet_wrap(~Sex) +
+  geom_boxplot() +
+  labs(x = "Type of Event",
+       y = "Avergae Athlete BMI",
+       title = "Olympian's BMI by Event: \n \u2192 Swimmers \u263b") + 
+  ylim(14, 35)  +
+  scale_fill_brewer(palette = "Set3") +
+  theme(legend.position = "none")
+
+#Bad idea because the catagories for the two are different -> makes axis a mess
+# ggplot(data = swimmer_runner_BMI, mapping = aes(factor(event_catagory), y = BMI)) +
+#   facet_grid(Sex ~  Sport) +
+#   geom_boxplot() +
+#   labs(x = "Type of Event",
+#        y = "Avergae Athlete BMI")
+
+#facet_wrap(~grepl("Men", Event))
 ```
 
 ##Weightlifting (men)

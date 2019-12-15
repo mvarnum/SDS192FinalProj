@@ -29,7 +29,8 @@ library(tidyverse)
 
 #load datasets
 
-athlete_events <- read_csv("athlete_events.csv")
+athlete_events <- read_csv("athlete_events.csv") %>% 
+  mutate(Sex = ifelse(Sex == "F", "Women", "Men"))
 noc_regions <- read_csv("noc_regions.csv")
 
 #data wrangling
@@ -45,11 +46,12 @@ athlete_all <- athlete_events %>%
 
 #data visualization
 ggplot(data = athlete_all, mapping = aes(x = Year, y = avg_BMI, color = Sport)) +
-  geom_line() +
-  #geom_smooth(se = FALSE, span = .5) +
+  #geom_line() +
+  geom_smooth(se = FALSE, span = .5) +
   facet_wrap(~Sex) +
-  labs(title = "Average Olympian BMI Over Time: Swimming, Gymnastics, and Track & Field", y = "Average BMI") +
-  scale_color_discrete(name = "Olympic Sport", labels = c("Track & Field", "Gymnastics", "Swimming"))
+  labs(title = "Average Olympian BMI Over Time: \n \u2192 Swimming, Gymnastics, Track & Field", y = "Average BMI") +
+  scale_color_discrete(name = "Olympic Sport", labels = c("Track & Field", "Gymnastics", "Swimming")) +
+  ylim(15, 25)
 
 ```
 
