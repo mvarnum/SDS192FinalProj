@@ -91,13 +91,15 @@ ggplot(data = gymnastics_by_year, mapping = aes(x = Year, y = avg_BMI)) +
 ```{r}
 
 ggplot(data = gymnastics_medal_winners, 
-       mapping = aes(x = Age)) + 
+       mapping = aes(x = Age, fill = Sex)) + 
   geom_histogram(bins = 8,
                  aes(y = (..count..)/tapply(..count..,..PANEL..,sum)[..PANEL..])) + 
   facet_wrap(~Sex) +
   labs(x = "Age of Medal Winner", 
        y = "Proportion", 
-       title = "Age of Medal Winners for Olympic Gymnastics: 2000-2016")
+       title = "Age of Medal Winners for Olympic Gymnastics: 2000-2016") +
+  scale_fill_manual(values = c("#fb8072", "#80b1d3")) +
+  theme(legend.position = "none")
 ```
 
 ## Swimming

@@ -253,4 +253,26 @@ ggplot(data = swimmer_BMI, mapping = aes(x = factor(event_catagory), y = BMI, fi
   scale_fill_brewer(palette = "Set3") +
   theme(legend.position = "none")
 ```
+```{r}
+#wrangling
+athlete_gymnastics <- athlete_events %>% 
+  filter(Sport == "Gymnastics")
+
+gymnastics_medal_winners <- athlete_gymnastics %>% 
+    filter(Medal == "Silver" | Medal == "Bronze" | Medal == "Gold") %>% 
+    filter(Year > 1999)
+```
+
+```{r}
+ggplot(data = gymnastics_medal_winners, 
+       mapping = aes(x = Age, fill = Sex)) + 
+  geom_histogram(bins = 8,
+                 aes(y = (..count..)/tapply(..count..,..PANEL..,sum)[..PANEL..])) + 
+  facet_wrap(~Sex) +
+  labs(x = "Age of Medal Winner", 
+       y = "Proportion", 
+       title = "Age of Medal Winners for Olympic Gymnastics: 2000-2016") +
+  scale_fill_manual(values = c("#fb8072", "#80b1d3")) +
+  theme(legend.position = "none")
+```
 
