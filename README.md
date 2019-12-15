@@ -1,4 +1,4 @@
-# My personal webpage
+# Analyizing Physical Metrics of Olympians
 
-This is the README file for the source code for my personal webpage. It can be found at <https://whoishomer.github.io/webpage/>.  
+The final webpage can be viewed here: https://physicalmetricsofolympians.netlify.com/
 
