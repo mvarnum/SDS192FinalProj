@@ -65,6 +65,7 @@ ggplot(data = athlete_all,
   theme(legend.title = element_blank())
 
 ```
+ 
 In looking at the average age of Olympians across time, an overall trend shows that male athletes are consistently older than female athletes across all three sports. The reason for why females peak earlier in age than males may be attributed to societal pressures that women face outside of sports, such as dating and starting a family. Additionally, for gymnastics, the priority for female athletes is flexibility, whereas for male athletes it is strength. Thus, a younger age demographic corresponds to higher flexibility in women. It can be noted that in recent years, from around 1980, the average age has been increasing across all sports. This perhaps is due to a shift in the dialogue around women and sports and a new preference for women to also exhibit exceptional strength. However, the age range is still very low, the average for gymnastics being around twenty in 2012. This brings up many ethical questions, especially in light of the #MeToo movement and the scandal within the US team. When young girls are expected to compete professionally, what kinds of protection are enacted?
 
 ## Swimming and Track BMI by Event
